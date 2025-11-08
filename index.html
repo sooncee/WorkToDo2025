@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>드래그 가능한 투두리스트</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 섹션 1: 할일 목록 -->
+        <section class="section todo-section">
+            <h2>할일 목록</h2>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="active">진행중</button>
+                <button class="tab-btn" data-tab="completed">완료</button>
+            </div>
+            <button id="addTodoBtn" class="add-todo-btn">+ 새 할일 추가</button>
+            <div id="todoList" class="todo-list drop-zone"></div>
+        </section>
+
+        <!-- 섹션 2: 캘린더 -->
+        <section class="section calendar-section">
+            <h2>캘린더</h2>
+            <div class="calendar-controls">
+                <div class="calendar-header">
+                    <button id="prevPeriod">&lt;</button>
+                    <h3 id="currentPeriod"></h3>
+                    <button id="nextPeriod">&gt;</button>
+                </div>
+                <div class="view-switcher">
+                    <button class="view-btn active" data-view="calendar">캘린더</button>
+                    <button class="view-btn" data-view="list">리스트</button>
+                </div>
+            </div>
+            <div id="calendar" class="calendar"></div>
+        </section>
+    </div>
+
+    <!-- 할일 추가 모달 -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close-add">&times;</span>
+            <h2>새 할일 추가</h2>
+            <div class="modal-body">
+                <div class="modal-form">
+                    <label>제목</label>
+                    <input type="text" id="newTodoTitle" placeholder="제목을 입력하세요">
+                    <label>내용</label>
+                    <textarea id="newTodoContent" placeholder="내용을 입력하세요 (선택사항)" rows="5"></textarea>
+                    <div class="modal-color-picker">
+                        <label>색상</label>
+                        <div class="color-options">
+                            <div class="color-option" data-color="#667eea" style="background: #667eea;"></div>
+                            <div class="color-option" data-color="#f093fb" style="background: #f093fb;"></div>
+                            <div class="color-option" data-color="#4facfe" style="background: #4facfe;"></div>
+                            <div class="color-option" data-color="#43e97b" style="background: #43e97b;"></div>
+                            <div class="color-option" data-color="#fa709a" style="background: #fa709a;"></div>
+                            <div class="color-option" data-color="#feca57" style="background: #feca57;"></div>
+                            <div class="color-option" data-color="#ff6b6b" style="background: #ff6b6b;"></div>
+                            <div class="color-option active" data-color="#a8a8a8" style="background: #a8a8a8;"></div>
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button id="createTodoBtn" class="save-btn">추가</button>
+                        <button id="cancelAddBtn" class="cancel-btn">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 할일 수정 모달 -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-edit">&times;</span>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="js/state.js"></script>
+    <script src="js/todo.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/drag.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
