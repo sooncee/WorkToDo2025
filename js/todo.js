@@ -1,7 +1,7 @@
 // 할일 관련 기능
 
 // 할일 추가
-function addTodo() {
+async function addTodo() {
   const title = newTodoTitle.value.trim();
   const content = newTodoContent.value.trim();
   if (!title) {
@@ -10,41 +10,64 @@ function addTodo() {
   }
 
   const todo = {
-    id: Date.now(),
     title: title,
     content: content,
     color: selectedColor,
     createdAt: new Date().toISOString(),
     completed: false,
     completedAt: null,
-    scheduledDate: null, // 캘린더 날짜 (null이면 할일 목록에만 표시)
-    order: todos.length, // 순서
+    scheduledDate: null,
+    order: todos.length,
   };
 
-  todos.push(todo);
-  saveTodos();
-  renderTodos();
+  if (currentUser) {
+    // Supabase에 추가
+    const id = await addTodoToSupabase(todo);
+    if (id) {
+      todo.id = id;
+      todos.push(todo);
+      renderTodos();
+    }
+  } else {
+    // 로컬 저장
+    todo.id = Date.now();
+    todos.push(todo);
+    saveTodos();
+    renderTodos();
+  }
+
   closeAddModalHandler();
 }
 
 // 할일 삭제
-function deleteTodo(id, skipConfirm = false) {
+async function deleteTodo(id, skipConfirm = false) {
   if (!skipConfirm && !confirm("이 할일을 삭제하시겠습니까?")) {
     return;
   }
+
+  if (currentUser) {
+    await deleteTodoFromSupabase(id);
+  }
+
   todos = todos.filter((todo) => todo.id !== id);
   saveTodos();
   renderTodos();
 }
 
 // 할일 수정
-function updateTodo(id, title, content, color) {
+async function updateTodo(id, title, content, color) {
   const todo = todos.find((t) => t.id === id);
   if (todo) {
     todo.title = title;
     todo.content = content;
     todo.color = color;
-    saveTodos();
+
+    if (currentUser) {
+      await updateTodoInSupabase(todo);
+    } else {
+      saveTodos();
+    }
+
     renderTodos();
     renderCalendar();
   }
@@ -142,13 +165,25 @@ function renderTodos() {
 }
 
 // 할일 완료/미완료 토글
-function toggleTodoComplete(id) {
+async function toggleTodoComplete(id) {
   const todo = todos.find((t) => t.id === id);
   if (todo) {
     todo.completed = !todo.completed;
     todo.completedAt = todo.completed ? new Date().toISOString() : null;
-    saveTodos();
+
+    // 완료 처리 시 캘린더에서 제거 (할일 목록으로 이동)
+    if (todo.completed && todo.scheduledDate) {
+      todo.scheduledDate = null;
+    }
+
+    if (currentUser) {
+      await updateTodoInSupabase(todo);
+    } else {
+      saveTodos();
+    }
+
     renderTodos();
+    renderCalendar();
   }
 }
 

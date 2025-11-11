@@ -55,9 +55,9 @@ function renderListView() {
 
   calendar.innerHTML = "";
 
-  // 해당 월의 모든 할일 가져오기
+  // 해당 월의 모든 할일 가져오기 (완료되지 않은 것만)
   const scheduledTodos = todos.filter((todo) => {
-    if (!todo.scheduledDate) return false;
+    if (!todo.scheduledDate || todo.completed) return false;
     const [y, m] = todo.scheduledDate.split("-").map(Number);
     return y === year && m === month + 1;
   });
@@ -169,8 +169,10 @@ function renderDayCell(date, dateKey) {
   dayEl.addEventListener("dragleave", handleDragLeave);
   dayEl.addEventListener("drop", handleDrop);
 
-  // 해당 날짜의 할일 표시
-  const todosForDate = todos.filter((todo) => todo.scheduledDate === dateKey);
+  // 해당 날짜의 할일 표시 (완료되지 않은 것만)
+  const todosForDate = todos.filter(
+    (todo) => todo.scheduledDate === dateKey && !todo.completed
+  );
 
   if (todosForDate.length > 0) {
     const todosContainer = dayEl.querySelector(".calendar-todos");

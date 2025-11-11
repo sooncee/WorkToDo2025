@@ -28,7 +28,9 @@ if (oldCalendarTodos && Object.keys(oldCalendarTodos).length > 0) {
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
-// 로컬 스토리지 저장
+// 로컬 스토리지 저장 (Supabase 사용 시 백업용)
 function saveTodos() {
-  localStorage.setItem("todos", JSON.stringify(todos));
+  if (!currentUser) {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }
 }

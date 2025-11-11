@@ -91,7 +91,7 @@ function handleTodoListDrop(e) {
 }
 
 // 드롭
-function handleDrop(e) {
+async function handleDrop(e) {
   e.preventDefault();
   const dayEl = e.currentTarget;
   dayEl.classList.remove("drag-over");
@@ -102,7 +102,12 @@ function handleDrop(e) {
 
   // 할일의 scheduledDate 업데이트
   draggedTodo.scheduledDate = dateKey;
-  saveTodos();
+
+  if (currentUser) {
+    await updateTodoInSupabase(draggedTodo);
+  } else {
+    saveTodos();
+  }
 
   renderTodos();
   renderCalendar();
