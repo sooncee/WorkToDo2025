@@ -23,8 +23,12 @@ function init() {
   // Supabase 인증 초기화
   initAuth();
 
+  // 사이드바 초기화
+  initSidebar();
+
   renderTodos();
   renderCalendar();
+  renderDashboard();
 
   // 할일 추가 모달 열기
   addTodoBtn.addEventListener("click", openAddModal);

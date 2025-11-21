@@ -99,14 +99,19 @@ h2 {
 // 레이아웃
 // ==========================================
 
+.app-section {
+  display: flex;
+  min-height: 100vh;
+}
+
 .container {
   display: flex;
-  // gap: @space-lg;
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
-  height: calc(100vh - 40px);
+  height: 100vh;
   flex: 1;
+  margin-left: 60px; // 사이드바 너비만큼
 }
 
 .section {
@@ -118,6 +123,145 @@ h2 {
 .todo-section {
   background-color: #1c1d21;
   max-width: 300px;
+}
+
+// ==========================================
+// 대시보드
+// ==========================================
+
+.dashboard-section {
+  width: 100%;
+  padding: @space-xl;
+  overflow-y: auto;
+}
+
+.dashboard-header {
+  margin-bottom: @space-xl;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: @text-primary;
+    margin: 0;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: @space-lg;
+  margin-bottom: @space-xl;
+}
+
+.stat-card {
+  .card();
+  display: flex;
+  align-items: center;
+  gap: @space-lg;
+  padding: @space-lg;
+  transition: @transition;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  .flex-center();
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: @radius;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: @text-primary;
+  line-height: 1;
+  margin-bottom: @space-xs;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: @text-secondary;
+  font-weight: 500;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: @space-lg;
+}
+
+.dashboard-card {
+  .card();
+  padding: @space-lg;
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: @text-primary;
+    margin-bottom: @space-lg;
+  }
+}
+
+.weekly-schedule,
+.recent-list {
+  .flex-column();
+  gap: @space-sm;
+}
+
+.schedule-item,
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: @space-md;
+  padding: @space-md;
+  background: @bg-input;
+  border-radius: @radius;
+  border-left: 3px solid;
+  transition: @transition;
+
+  &:hover {
+    background: @bg-hover;
+    transform: translateX(4px);
+  }
+}
+
+.schedule-date {
+  font-size: 12px;
+  color: @text-muted;
+  min-width: 80px;
+}
+
+.schedule-title,
+.recent-title {
+  flex: 1;
+  color: @text-primary;
+  font-weight: 500;
+}
+
+.recent-date {
+  font-size: 12px;
+  color: @text-muted;
+}
+
+.empty-dashboard {
+  text-align: center;
+  color: @text-muted;
+  padding: @space-xl;
+  font-size: 14px;
 }
 
 // ==========================================
@@ -878,48 +1022,101 @@ h2 {
 }
 
 // ==========================================
-// 앱 헤더
+// 사이드바
 // ==========================================
 
-.app-section {
-  .flex-column();
-  min-height: 100vh;
-}
-
-.app-header {
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 60px;
+  height: 100vh;
+  background: #2a2b31;
+  border-right: 1px solid @border;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  padding: @space-lg @space-xl;
-  background: @bg-card;
-  border-bottom: 1px solid @border;
-
-  h1 {
-    color: @text-primary;
-    font-size: 24px;
-    margin: 0;
-  }
+  padding: @space-lg 0;
+  z-index: 100;
 }
 
-.user-info {
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: @space-sm;
+  padding: 0 @space-sm;
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: @space-sm;
+  padding: 0 @space-sm;
+  border-top: 1px solid @border;
+  padding-top: @space-lg;
+}
+
+.sidebar-item {
+  .button();
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  color: @text-muted;
   display: flex;
   align-items: center;
-  gap: @space-md;
+  justify-content: center;
+  border-radius: @radius;
+  transition: @transition;
+  position: relative;
 
-  span {
-    color: @text-secondary;
-    font-size: 14px;
+  svg {
+    width: 24px;
+    height: 24px;
   }
-}
-
-.logout-btn {
-  .button();
-  padding: 8px 16px;
-  background: @danger;
-  color: white;
-  font-size: 14px;
 
   &:hover {
-    background: darken(@danger, 8%);
+    background: @bg-hover;
+    color: @primary;
+  }
+
+  &.active {
+    background: rgba(108, 92, 231, 0.15);
+    color: @primary;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 24px;
+      background: @primary;
+      border-radius: 0 2px 2px 0;
+    }
+  }
+
+  // 툴팁
+  &::after {
+    content: attr(title);
+    position: absolute;
+    left: 100%;
+    margin-left: @space-sm;
+    padding: 6px 12px;
+    background: @bg-card;
+    color: @text-primary;
+    border: 1px solid @border;
+    border-radius: @radius;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 1000;
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 }
