@@ -232,21 +232,31 @@ function handleTodoItemDragOver(e) {
 }
 
 // 할일 목록 내 드롭
-function handleTodoItemDrop(e) {
+async function handleTodoItemDrop(e) {
   e.preventDefault();
   e.stopPropagation();
 
   // 새로운 순서 저장
   const todoItems = Array.from(todoList.querySelectorAll(".todo-item"));
+  const updatePromises = [];
+
   todoItems.forEach((item, index) => {
     const todoId = parseInt(item.dataset.id);
     const todo = todos.find((t) => t.id === todoId);
     if (todo) {
       todo.order = index;
+      if (currentUser) {
+        updatePromises.push(updateTodoInSupabase(todo));
+      }
     }
   });
 
-  saveTodos();
+  if (currentUser) {
+    await Promise.all(updatePromises);
+  } else {
+    saveTodos();
+  }
+
   draggedTodo = null;
   draggedTodoElement = null;
 }

@@ -20,6 +20,9 @@ const cancelAddBtn = document.getElementById("cancelAddBtn");
 init();
 
 function init() {
+  // Supabase 인증 초기화
+  initAuth();
+
   renderTodos();
   renderCalendar();
 

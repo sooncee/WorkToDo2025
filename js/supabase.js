@@ -4,27 +4,41 @@ const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFld25ud2hpcnVhdGxrdnRud3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4NjQ4MTgsImV4cCI6MjA3ODQ0MDgxOH0.LPnV7cdCMLqzy1B4hHM02Nv-LXSQyJla4V6x9iQaTIA"; // 여기에 anon key 입력
 
 // Supabase 클라이언트 초기화
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true, // 세션을 로컬 스토리지에 저장
+    autoRefreshToken: true, // 토큰 자동 갱신
+    detectSessionInUrl: true, // URL에서 세션 감지 (OAuth 콜백용)
+    storage: window.localStorage, // 로컬 스토리지 사용
+  },
+});
 
 // 현재 사용자
 let currentUser = null;
 
 // 인증 상태 확인
 async function initAuth() {
+  // 로딩 중 표시
+  console.log("🔄 세션 확인 중...");
+
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
   if (session) {
+    console.log("✅ 로그인 상태:", session.user.email);
     currentUser = session.user;
     showApp();
     await loadTodosFromSupabase();
   } else {
+    console.log("❌ 로그인 필요");
     showAuth();
   }
 
   // 인증 상태 변경 감지
-  supabase.auth.onAuthStateChange((_event, session) => {
+  supabase.auth.onAuthStateChange((event, session) => {
+    console.log("🔔 인증 상태 변경:", event);
+
     if (session) {
       currentUser = session.user;
       showApp();
@@ -87,6 +101,8 @@ async function signInWithGoogle() {
 
 // Supabase에서 할일 불러오기
 async function loadTodosFromSupabase() {
+  console.log("📥 Supabase에서 할일 불러오는 중...");
+
   const { data, error } = await supabase
     .from("todos")
     .select("*")
@@ -94,9 +110,12 @@ async function loadTodosFromSupabase() {
     .order("order", { ascending: true });
 
   if (error) {
-    console.error("할일 불러오기 실패:", error);
+    console.error("❌ 할일 불러오기 실패:", error);
     return;
   }
+
+  console.log("✅ 불러온 할일 개수:", data.length);
+  console.log("📋 데이터:", data);
 
   // Supabase 데이터를 로컬 형식으로 변환
   todos = data.map((todo) => ({
@@ -111,12 +130,16 @@ async function loadTodosFromSupabase() {
     completedAt: todo.completed_at,
   }));
 
+  console.log("🔄 변환된 todos:", todos);
+
   renderTodos();
   renderCalendar();
 }
 
 // Supabase에 할일 추가
 async function addTodoToSupabase(todo) {
+  console.log("➕ Supabase에 할일 추가 중:", todo);
+
   const { data, error } = await supabase
     .from("todos")
     .insert([
@@ -136,10 +159,11 @@ async function addTodoToSupabase(todo) {
     .single();
 
   if (error) {
-    console.error("할일 추가 실패:", error);
+    console.error("❌ 할일 추가 실패:", error);
     return null;
   }
 
+  console.log("✅ 할일 추가 성공, ID:", data.id);
   return data.id;
 }
 
@@ -190,5 +214,9 @@ function showAuth() {
 function showApp() {
   document.getElementById("authSection").style.display = "none";
   document.getElementById("appSection").style.display = "flex";
-  document.getElementById("userEmail").textContent = currentUser?.email || "";
+
+  const userEmailEl = document.getElementById("userEmail");
+  if (userEmailEl) {
+    userEmailEl.textContent = currentUser?.email || "";
+  }
 }

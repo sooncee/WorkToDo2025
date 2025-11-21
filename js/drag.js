@@ -67,7 +67,7 @@ function handleTodoListDragLeave(e) {
 }
 
 // 할일 목록으로 드롭 (캘린더에서)
-function handleTodoListDrop(e) {
+async function handleTodoListDrop(e) {
   // todo-item에 드롭한 경우는 무시 (순서 변경 처리)
   if (
     e.target.classList.contains("todo-item") ||
@@ -83,7 +83,12 @@ function handleTodoListDrop(e) {
 
   // 캘린더에서 제거 (할일 목록으로 이동)
   draggedTodo.scheduledDate = null;
-  saveTodos();
+
+  if (currentUser) {
+    await updateTodoInSupabase(draggedTodo);
+  } else {
+    saveTodos();
+  }
 
   renderTodos();
   renderCalendar();

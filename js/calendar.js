@@ -162,6 +162,15 @@ function renderDayCell(date, dateKey) {
   dayEl.className = "calendar-day";
   dayEl.dataset.date = dateKey;
 
+  // 오늘 날짜 체크
+  const today = new Date();
+  const todayKey = `${today.getFullYear()}-${
+    today.getMonth() + 1
+  }-${today.getDate()}`;
+  if (dateKey === todayKey) {
+    dayEl.classList.add("today");
+  }
+
   dayEl.innerHTML = `<div class="day-number">${date}</div><div class="calendar-todos"></div>`;
 
   // 드롭 이벤트
@@ -212,7 +221,7 @@ function renderDayCell(date, dateKey) {
 }
 
 // 캘린더 할일 삭제
-function deleteCalendarTodo(todoId) {
+async function deleteCalendarTodo(todoId) {
   if (!confirm("이 할일을 삭제하시겠습니까?")) {
     return;
   }
@@ -221,7 +230,13 @@ function deleteCalendarTodo(todoId) {
   if (todo) {
     // 캘린더에서만 제거 (할일 목록으로 되돌리기)
     todo.scheduledDate = null;
-    saveTodos();
+
+    if (currentUser) {
+      await updateTodoInSupabase(todo);
+    } else {
+      saveTodos();
+    }
+
     renderTodos();
     renderCalendar();
   }
@@ -247,7 +262,7 @@ function handleListDragLeave(e) {
 }
 
 // 리스트 뷰 드롭
-function handleListDrop(e, dateKey) {
+async function handleListDrop(e, dateKey) {
   e.preventDefault();
   e.currentTarget.classList.remove("drag-over");
 
@@ -255,7 +270,12 @@ function handleListDrop(e, dateKey) {
 
   // 할일의 scheduledDate 업데이트
   draggedTodo.scheduledDate = dateKey;
-  saveTodos();
+
+  if (currentUser) {
+    await updateTodoInSupabase(draggedTodo);
+  } else {
+    saveTodos();
+  }
 
   renderTodos();
   renderCalendar();

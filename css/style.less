@@ -1,0 +1,925 @@
+// ==========================================
+// 색상 변수
+// ==========================================
+
+// 주요 색상
+@primary: #6c5ce7;
+@primary-hover: #5f4fd1;
+
+// 배경
+@bg-dark: #1e1f24;
+@bg-card: #2a2b31;
+@bg-hover: #35363d;
+@bg-input: #25262c;
+
+// 텍스트
+@text-primary: #ffffff;
+@text-secondary: #a0a0a8;
+@text-muted: #6c6c75;
+
+// 상태 색상
+@success: #00b894;
+@warning: #fdcb6e;
+@danger: #ff7675;
+
+// 테두리
+@border: rgba(255, 255, 255, 0.08);
+
+// 간격
+@space-xs: 5px;
+@space-sm: 10px;
+@space-md: 15px;
+@space-lg: 20px;
+@space-xl: 30px;
+
+// 기타
+@radius: 8px;
+@radius-lg: 12px;
+@transition: all 0.2s ease;
+
+// ==========================================
+// 믹스인
+// ==========================================
+
+.flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column() {
+  display: flex;
+  flex-direction: column;
+}
+
+.button() {
+  border: none;
+  border-radius: @radius;
+  cursor: pointer;
+  font-weight: 600;
+  transition: @transition;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.card() {
+  background: @bg-card;
+  border: 1px solid @border;
+  border-radius: @radius-lg;
+  padding: @space-xl;
+}
+
+// ==========================================
+// 기본 스타일
+// ==========================================
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: @bg-dark;
+  color: @text-primary;
+  min-height: 100vh;
+}
+
+h2 {
+  color: @text-primary;
+  margin-bottom: @space-lg;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+// ==========================================
+// 레이아웃
+// ==========================================
+
+.container {
+  display: flex;
+  // gap: @space-lg;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  height: calc(100vh - 40px);
+  flex: 1;
+}
+
+.section {
+  border-radius: 0;
+  overflow-y: auto;
+  width: 100%;
+  padding: 10px;
+}
+.todo-section {
+  background-color: #1c1d21;
+  max-width: 300px;
+}
+
+// ==========================================
+// 할일 목록
+// ==========================================
+
+.add-todo-btn {
+  .button();
+  width: 100%;
+  padding: @space-md;
+  background: transparent;
+  color: @primary;
+  border: 1px solid @primary;
+  font-size: 15px;
+  margin-bottom: @space-lg;
+
+  &:hover {
+    background: @primary;
+    color: white;
+  }
+}
+
+.todo-list {
+  .flex-column();
+  gap: @space-sm;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: @space-sm;
+  padding: @space-md;
+  background: @bg-input;
+  border-radius: @radius;
+  border: 1px solid @border;
+  border-left: 4px solid;
+  cursor: move;
+  transition: @transition;
+
+  &:hover {
+    background: @bg-hover;
+    transform: translateX(4px);
+  }
+
+  &.dragging {
+    opacity: 0.5;
+  }
+
+  &.completed {
+    opacity: 0.6;
+
+    .todo-text {
+      text-decoration: line-through;
+    }
+  }
+}
+
+.todo-content {
+  flex: 1;
+  .flex-column();
+  gap: @space-xs;
+}
+
+.todo-text {
+  cursor: pointer;
+  color: @text-primary;
+  font-weight: 500;
+
+  &:hover {
+    color: @primary;
+  }
+}
+
+.todo-date {
+  font-size: 11px;
+  color: @text-muted;
+}
+
+.todo-actions {
+  display: flex;
+  gap: @space-xs;
+}
+
+.todo-section {
+  .complete-btn,
+  .uncomplete-btn {
+    .button();
+    background: transparent;
+    color: @primary;
+    border: 1px solid @primary;
+    padding: 6px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+
+    &:hover {
+      background: @primary;
+      color: white;
+    }
+  }
+
+  .delete-btn {
+    .button();
+    background: transparent;
+    color: @primary;
+    border: 1px solid @primary;
+    padding: 6px 12px;
+    font-size: 12px;
+
+    &:hover {
+      background: @primary;
+      color: white;
+    }
+  }
+}
+
+// 캘린더 섹션의 버튼은 기존 스타일 유지
+.calendar-section {
+  .complete-btn,
+  .uncomplete-btn {
+    .button();
+    background: @success;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+
+    &:hover {
+      background: darken(@success, 8%);
+    }
+  }
+
+  .uncomplete-btn {
+    background: @warning;
+
+    &:hover {
+      background: darken(@warning, 8%);
+    }
+  }
+
+  .delete-btn {
+    .button();
+    background: @danger;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+
+    &:hover {
+      background: darken(@danger, 8%);
+    }
+  }
+}
+
+.empty-message {
+  text-align: center;
+  color: @text-muted;
+  padding: @space-xl @space-lg;
+  font-size: 14px;
+}
+
+// ==========================================
+// 탭
+// ==========================================
+
+.tabs {
+  display: flex;
+  gap: @space-sm;
+  margin-bottom: @space-lg;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: @space-sm;
+  background: transparent;
+  border: 1px solid @primary;
+  color: @primary;
+  .button();
+  transition: @transition;
+
+  &.active {
+    background: @primary;
+    color: white;
+    border-color: @primary;
+  }
+
+  &:hover:not(.active) {
+    background: @primary;
+    color: white;
+    border-color: @primary;
+  }
+}
+
+// ==========================================
+// 캘린더
+// ==========================================
+
+.calendar-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: @space-lg;
+  gap: @space-md;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    .button();
+    padding: 8px 16px;
+    font-size: 16px;
+    background: transparent;
+    color: @text-primary;
+    border: 1px solid @border;
+
+    &:hover {
+      background: @bg-hover;
+      border-color: @primary;
+    }
+  }
+
+  h3 {
+    color: @text-primary;
+    font-size: 20px;
+  }
+}
+
+.view-switcher {
+  display: flex;
+  gap: @space-xs;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px;
+  border-radius: @radius;
+  border: 1px solid @border;
+}
+
+.view-btn {
+  .button();
+  padding: 8px 16px;
+  background: transparent;
+  color: @text-secondary;
+  font-size: 14px;
+
+  &.active {
+    background: @primary;
+    color: white;
+  }
+
+  &:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: @space-sm;
+
+  &.list-view {
+    .flex-column();
+    gap: @space-md;
+  }
+}
+
+.day-header {
+  font-weight: bold;
+
+  text-align: center;
+  padding: @space-sm;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: #1c1d21;
+  border-radius: @space-xs;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: @radius;
+  padding: 8px;
+  background: @bg-card;
+  .flex-column();
+  position: relative;
+  min-height: 100px;
+
+  &.drag-over {
+    background: rgba(108, 92, 231, 0.1);
+    border-color: @primary;
+    border-style: dashed;
+  }
+
+  &.today {
+    background: rgba(108, 92, 231, 0.15);
+    border: 2px solid @primary;
+    box-shadow: 0 0 10px rgba(108, 92, 231, 0.3);
+
+    .day-number {
+      color: @primary;
+      font-size: 18px;
+    }
+  }
+}
+
+.day-number {
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: @space-xs;
+}
+
+.calendar-todos {
+  .flex-column();
+  gap: @space-xs;
+  margin-top: @space-xs;
+}
+
+.calendar-todo {
+  background: @primary;
+  color: white;
+  padding: 6px 8px;
+  border-radius: @space-xs;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover {
+    background: @primary-hover;
+  }
+
+  .delete-btn {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2px 6px;
+    font-size: 10px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+.calendar-todo-title {
+  cursor: pointer;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+// ==========================================
+// 리스트 뷰
+// ==========================================
+
+.list-date-section {
+  background: @bg-input;
+  border: 1px solid @border;
+  border-radius: @radius;
+  overflow: hidden;
+  transition: @transition;
+
+  &.drag-over {
+    background: rgba(108, 92, 231, 0.1);
+    border: 2px dashed @primary;
+  }
+}
+
+.list-date-header {
+  display: flex;
+  align-items: center;
+  gap: @space-md;
+  padding: @space-md @space-lg;
+  background: @bg-card;
+  border-bottom: 1px solid @border;
+}
+
+.list-date-day {
+  font-size: 32px;
+  font-weight: bold;
+  color: @primary;
+  min-width: 50px;
+}
+
+.list-date-info {
+  font-size: 16px;
+  color: @text-secondary;
+  font-weight: 500;
+}
+
+.list-todos-container {
+  padding: @space-sm;
+  .flex-column();
+  gap: 8px;
+}
+
+.list-todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: @space-md;
+  background: @bg-card;
+  border-radius: @radius;
+  border-left: 4px solid;
+  cursor: pointer;
+  transition: @transition;
+
+  &:hover {
+    transform: translateX(4px);
+    background: @bg-hover;
+
+    .delete-btn {
+      opacity: 1;
+    }
+  }
+
+  &.dragging {
+    opacity: 0.5;
+  }
+
+  .delete-btn {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+}
+
+.list-todo-content {
+  flex: 1;
+  .flex-column();
+  gap: @space-xs;
+  cursor: pointer;
+}
+
+.list-todo-title {
+  font-weight: bold;
+  color: @text-primary;
+  font-size: 16px;
+}
+
+.list-todo-desc {
+  color: @text-secondary;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+// ==========================================
+// 모달
+// ==========================================
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  .card();
+  margin: 10% auto;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.close,
+.close-add,
+.close-edit {
+  color: @text-muted;
+  position: absolute;
+  right: @space-lg;
+  top: @space-lg;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: @transition;
+
+  &:hover,
+  &:focus {
+    color: @text-primary;
+  }
+}
+
+.modal-body {
+  padding: @space-sm 0;
+}
+
+.modal-form {
+  .flex-column();
+  gap: @space-md;
+
+  label {
+    font-weight: 600;
+    color: @text-secondary;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  input,
+  textarea {
+    padding: 12px;
+    background: @bg-input;
+    border: 1px solid @border;
+    border-radius: @radius;
+    font-size: 14px;
+    color: @text-primary;
+    font-family: inherit;
+    transition: @transition;
+
+    &:focus {
+      outline: none;
+      border-color: @primary;
+      box-shadow: 0 0 0 3px rgba(43, 44, 48, 0.3);
+    }
+
+    &::placeholder {
+      color: @text-muted;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+}
+
+.modal-buttons {
+  display: flex;
+  gap: @space-sm;
+  margin-top: @space-sm;
+
+  button {
+    flex: 1;
+  }
+
+  .complete-btn,
+  .uncomplete-btn {
+    flex: 0.8;
+  }
+}
+
+.save-btn {
+  .button();
+  background: @primary;
+  color: white;
+  padding: 12px;
+  font-size: 14px;
+
+  &:hover {
+    background: @primary-hover;
+  }
+}
+
+.cancel-btn {
+  .button();
+  background: transparent;
+  color: @text-secondary;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid @border;
+
+  &:hover {
+    background: @bg-hover;
+    border-color: @text-muted;
+  }
+}
+
+.modal-date-info {
+  background: @bg-input;
+  padding: 12px;
+  border-radius: @radius;
+  margin-bottom: @space-md;
+  font-size: 12px;
+  color: @text-muted;
+  border: 1px solid @border;
+
+  div {
+    margin-bottom: @space-xs;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// ==========================================
+// 색상 선택
+// ==========================================
+
+.color-picker {
+  display: flex;
+  align-items: center;
+  gap: @space-sm;
+
+  label {
+    font-size: 14px;
+    font-weight: bold;
+    color: @text-primary;
+  }
+}
+
+.color-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.color-option {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: @transition;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &.active {
+    border-color: @text-primary;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px @text-primary;
+  }
+}
+
+.modal-color-picker {
+  margin-bottom: @space-md;
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+}
+
+// ==========================================
+// 드롭 존
+// ==========================================
+
+.drop-zone {
+  min-height: 200px;
+  transition: background-color 0.2s;
+
+  &.drag-over-list {
+    background-color: rgba(108, 92, 231, 0.1);
+    border: 2px dashed @primary;
+    border-radius: @radius;
+  }
+}
+
+// ==========================================
+// 인증
+// ==========================================
+
+.auth-section {
+  .flex-center();
+  min-height: 100vh;
+  background: #25262c;
+  padding: @space-lg;
+}
+
+.auth-container {
+  .card();
+  padding: @space-xl;
+  width: 100%;
+  max-width: 400px;
+
+  h1 {
+    text-align: center;
+    color: @text-primary;
+    margin-bottom: @space-xl;
+    font-size: 28px;
+    font-weight: 700;
+  }
+}
+
+.auth-tabs {
+  display: flex;
+  gap: @space-sm;
+  margin-bottom: @space-xl;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid @border;
+  .button();
+  color: @text-secondary;
+
+  &.active {
+    background: @primary;
+    color: white;
+    border-color: @primary;
+  }
+
+  &:hover:not(.active) {
+    background: @bg-hover;
+    border-color: lighten(@border, 5%);
+  }
+}
+
+.auth-form {
+  .flex-column();
+  gap: @space-md;
+
+  input {
+    padding: @space-md;
+    background: @bg-input;
+    border: 1px solid @border;
+    border-radius: @radius;
+    font-size: 15px;
+    color: @text-primary;
+    transition: @transition;
+
+    &:focus {
+      outline: none;
+      border-color: @primary;
+      box-shadow: 0 0 0 3px rgba(43, 44, 48, 0.3);
+    }
+
+    &::placeholder {
+      color: @text-muted;
+    }
+  }
+}
+
+.auth-btn {
+  .button();
+  background: @primary;
+  color: white;
+  padding: @space-md;
+  font-size: 16px;
+
+  &:hover {
+    background: @primary-hover;
+    transform: translateY(-2px);
+  }
+}
+
+.google-btn {
+  .button();
+  padding: @space-md;
+  background: transparent;
+  color: @text-primary;
+  border: 1px solid @border;
+  font-size: 15px;
+
+  &:hover {
+    background: @bg-hover;
+    border-color: @primary;
+  }
+}
+
+// ==========================================
+// 앱 헤더
+// ==========================================
+
+.app-section {
+  .flex-column();
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: @space-lg @space-xl;
+  background: @bg-card;
+  border-bottom: 1px solid @border;
+
+  h1 {
+    color: @text-primary;
+    font-size: 24px;
+    margin: 0;
+  }
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: @space-md;
+
+  span {
+    color: @text-secondary;
+    font-size: 14px;
+  }
+}
+
+.logout-btn {
+  .button();
+  padding: 8px 16px;
+  background: @danger;
+  color: white;
+  font-size: 14px;
+
+  &:hover {
+    background: darken(@danger, 8%);
+  }
+}
