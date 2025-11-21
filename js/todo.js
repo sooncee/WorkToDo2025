@@ -27,6 +27,8 @@ async function addTodo() {
       todo.id = id;
       todos.push(todo);
       renderTodos();
+      renderDashboard();
+
     }
   } else {
     // 로컬 저장
@@ -34,6 +36,7 @@ async function addTodo() {
     todos.push(todo);
     saveTodos();
     renderTodos();
+    renderDashboard();
   }
 
   closeAddModalHandler();
@@ -52,6 +55,7 @@ async function deleteTodo(id, skipConfirm = false) {
   todos = todos.filter((todo) => todo.id !== id);
   saveTodos();
   renderTodos();
+  renderDashboard();
 }
 
 // 할일 수정
@@ -70,6 +74,7 @@ async function updateTodo(id, title, content, color) {
 
     renderTodos();
     renderCalendar();
+    renderDashboard();
   }
 }
 
@@ -184,6 +189,7 @@ async function toggleTodoComplete(id) {
 
     renderTodos();
     renderCalendar();
+    renderDashboard();
   }
 }
 

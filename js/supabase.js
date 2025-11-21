@@ -134,6 +134,7 @@ async function loadTodosFromSupabase() {
 
   renderTodos();
   renderCalendar();
+  renderDashboard();
 }
 
 // Supabase에 할일 추가
