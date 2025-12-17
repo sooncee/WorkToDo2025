@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
   background-color: #050510;
   background-image: radial-gradient(circle at 10% 20%, rgba(188, 19, 254, 0.1) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.1) 0%, transparent 40%);
   color: #ffffff;
@@ -86,7 +86,7 @@ h2 {
   text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
 }
 .dashboard-header h1::after {
-  content: " // SYSTEM OVERVIEW";
+  content: ' // SYSTEM OVERVIEW';
   font-size: 14px;
   color: #00f3ff;
   vertical-align: middle;
@@ -116,7 +116,7 @@ h2 {
   overflow: hidden;
 }
 .stat-card::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -193,7 +193,7 @@ h2 {
   gap: 10px;
 }
 .dashboard-card h3::before {
-  content: "";
+  content: '';
   display: block;
   width: 4px;
   height: 18px;
@@ -819,7 +819,7 @@ h2 {
   color: rgba(255, 255, 255, 0.4);
   position: absolute;
   right: 20px;
-  top: 20px;
+  top: 10px;
   font-size: 24px;
   font-weight: bold;
   cursor: pointer;
@@ -946,6 +946,7 @@ h2 {
   background: rgba(0, 243, 255, 0.05);
   padding: 12px;
   border-radius: 12px;
+  margin-top: 15px;
   margin-bottom: 15px;
   font-size: 12px;
   color: #ffffff;
@@ -1000,6 +1001,7 @@ h2 {
 .drop-zone {
   min-height: 200px;
   transition: background-color 0.2s;
+  height: calc(100% - 200px);
 }
 .drop-zone.drag-over-list {
   background-color: rgba(0, 243, 255, 0.1);
@@ -1270,7 +1272,7 @@ h2 {
 .sidebar-item:hover::after {
   opacity: 1;
 }
-@media (max-width: 768px) {
+@media (max-width: 969px) {
   .container {
     margin-left: 0;
     padding: 10px;
@@ -1279,6 +1281,9 @@ h2 {
     height: auto;
     min-height: 100vh;
     padding-bottom: 80px;
+  }
+  .calendar-controls {
+    flex-direction: column;
   }
   .app-section {
     display: block;
@@ -1290,6 +1295,7 @@ h2 {
   .todo-section {
     max-width: 100%;
     margin-bottom: 20px;
+    border: 0;
   }
   .sidebar {
     top: auto;
@@ -1368,7 +1374,7 @@ h2 {
     font-size: 14px;
   }
   .calendar-day {
-    min-height: 60px;
+    min-height: 30px;
     padding: 4px;
   }
   .day-number {
@@ -1382,8 +1388,10 @@ h2 {
     display: none;
   }
   .modal-content {
-    width: 95%;
-    margin: 20% auto;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: auto;
+    margin-bottom: auto;
     padding: 20px;
   }
   .auth-container {

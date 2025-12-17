@@ -208,15 +208,18 @@ async function deleteTodoFromSupabase(id) {
 
 // UI 표시/숨김
 function showAuth() {
-  document.getElementById("authSection").style.display = "flex";
-  document.getElementById("appSection").style.display = "none";
+  var authSection = document.getElementById("authSection");
+  var appSection = document.getElementById("appSection");
+  if (authSection) authSection.style.display = "flex";
+  if (appSection) appSection.style.display = "none";
 }
 
 function showApp() {
-  document.getElementById("authSection").style.display = "none";
-  document.getElementById("appSection").style.display = "flex";
-
-  const userEmailEl = document.getElementById("userEmail");
+  var authSection = document.getElementById("authSection");
+  var appSection = document.getElementById("appSection");
+  if (authSection) authSection.style.display = "none";
+  if (appSection) appSection.style.display = "flex";
+  var userEmailEl = document.getElementById("userEmail");
   if (userEmailEl) {
     userEmailEl.textContent = currentUser?.email || "";
   }

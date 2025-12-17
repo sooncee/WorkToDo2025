@@ -2,6 +2,7 @@
 
 // 페이지 로드 시 인증 초기화
 document.addEventListener("DOMContentLoaded", () => {
+  if (!document.getElementById("loginBtn")) return; // 로그인 UI 없는 페이지에선 아무것도 하지 않음
   initAuth();
 
   // 탭 전환
@@ -32,7 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    await signIn(email, password);
+    const ok = await signIn(email, password);
+    if (ok) {
+      window.location.href = "index.html";
+    }
   });
 
   // 회원가입
@@ -58,7 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    await signUp(email, password);
+    const ok = await signUp(email, password);
+    if (ok) {
+      // 회원가입 후 index로 이동 (또는 안내만 할 수도 있음)
+      window.location.href = "index.html";
+    }
   });
 
   // Google 로그인
@@ -68,12 +76,15 @@ document.addEventListener("DOMContentLoaded", () => {
       await signInWithGoogle();
     });
 
-  // 로그아웃
-  document.getElementById("logoutBtn").addEventListener("click", async () => {
-    if (confirm("로그아웃 하시겠습니까?")) {
-      await signOut();
-    }
-  });
+  // 로그아웃(만약 로그인 UI에 있으면)
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      if (confirm("로그아웃 하시겠습니까?")) {
+        await signOut();
+      }
+    });
+  }
 
   // Enter 키로 로그인
   document.getElementById("loginPassword").addEventListener("keypress", (e) => {

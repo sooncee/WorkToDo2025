@@ -151,12 +151,16 @@ function renderTodos() {
       });
     }
 
-    // 드래그 이벤트 (완료되지 않은 항목만)
+    // 드래그 이벤트 (완료되지 않은 항목만, 모바일 터치도 지원)
     if (!todo.completed) {
       todoItem.addEventListener("dragstart", handleTodoItemDragStart);
       todoItem.addEventListener("dragend", handleDragEnd);
       todoItem.addEventListener("dragover", handleTodoItemDragOver);
       todoItem.addEventListener("drop", handleTodoItemDrop);
+      // 모바일 터치 지원
+      todoItem.addEventListener("touchstart", handleTodoTouchStart, {passive:false});
+      todoItem.addEventListener("touchmove", handleTodoTouchMove, {passive:false});
+      todoItem.addEventListener("touchend", handleTodoTouchEnd, {passive:false});
     }
 
     // 삭제 버튼

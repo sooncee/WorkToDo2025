@@ -20,9 +20,10 @@ function initSidebar() {
   });
 
   // 로그아웃
-  sidebarLogout.addEventListener("click", () => {
+  sidebarLogout.addEventListener("click", async () => {
     if (confirm("로그아웃 하시겠습니까?")) {
-      signOut();
+      await signOut();
+      window.location.href = "login.html";
     }
   });
 }
