@@ -4,6 +4,7 @@ import RoutineSection from './components/Routine/RoutineSection';
 import TasksSection from './components/Tasks/TasksSection';
 import DashboardSection from './components/Dashboard/DashboardSection';
 import AuthSection from './components/Auth/AuthSection';
+import bgImage from './assets/images/bg3.png';
 import { supabase } from './lib/supabase';
 import { useUIStore } from './store/uiStore';
 import GlobalModal from './components/Common/GlobalModal';
@@ -62,7 +63,7 @@ function App() {
 	return (
 		<div className="app-container">
 			<div className="animated-bg">
-				<img src="/src/assets/images/bg3.png" alt="" />
+				<img src={bgImage} alt="" />
 			</div>
 			{!session ? (
 				<AuthSection onLoginSuccess={(s) => setSession(s)} />
