@@ -1,58 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인 - Todo Calendar</title>
-    <link rel="stylesheet/less" type="text/css" href="css/style.less" />
-    <script src="https://cdn.jsdelivr.net/npm/less@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-<body>
-    <!-- 로그인/회원가입 섹션 -->
-    <div id="authSection" class="auth-section">
-        <div class="auth-container">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>로그인 - Todo Calendar</title>
+      <link rel="stylesheet" type="text/css" href="/assets/css/style.min.css" />
+      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+   </head>
+   <body>
+      <!-- 로그인/회원가입 섹션 -->
+      <div id="authSection" class="auth-section">
+         <div class="auth-container">
             <h1>📝 Todo Calendar</h1>
             <div class="auth-tabs">
-                <button class="auth-tab active" data-tab="login">로그인</button>
-                <button class="auth-tab" data-tab="signup">회원가입</button>
+               <button class="auth-tab active" data-tab="login">로그인</button>
+               <button class="auth-tab" data-tab="signup">회원가입</button>
             </div>
             <div id="loginForm" class="auth-form">
-                <input type="email" id="loginEmail" placeholder="이메일" />
-                <input type="password" id="loginPassword" placeholder="비밀번호" />
-                <button id="loginBtn" class="auth-btn">로그인</button>
-                <button id="googleLoginBtn" class="google-btn">Google로 로그인</button>
+               <input type="email" id="loginEmail" placeholder="이메일" />
+               <input type="password" id="loginPassword" placeholder="비밀번호" />
+               <button id="loginBtn" class="auth-btn">로그인</button>
+               <button id="googleLoginBtn" class="google-btn">Google로 로그인</button>
             </div>
-            <div id="signupForm" class="auth-form" style="display: none;">
-                <input type="email" id="signupEmail" placeholder="이메일" />
-                <input type="password" id="signupPassword" placeholder="비밀번호" />
-                <input type="password" id="signupPasswordConfirm" placeholder="비밀번호 확인" />
-                <button id="signupBtn" class="auth-btn">회원가입</button>
+            <div id="signupForm" class="auth-form" style="display: none">
+               <input type="email" id="signupEmail" placeholder="이메일" />
+               <input type="password" id="signupPassword" placeholder="비밀번호" />
+               <input type="password" id="signupPasswordConfirm" placeholder="비밀번호 확인" />
+               <button id="signupBtn" class="auth-btn">회원가입</button>
             </div>
-        </div>
-    </div>
-    <script src="js/supabase.js"></script>
-    <script src="js/auth.js"></script>
-    <script>
-        // 이미 로그인되어 있으면 index.html로 리다이렉트
-        (async function() {
-            if(!window.supabase) {
-                await new Promise(r => {
-                    const check = setInterval(() => {
-                        if(window.supabase) { clearInterval(check); r(); }
-                    }, 50);
-                });
+         </div>
+      </div>
+      <script src="js/supabase.js"></script>
+      <script src="js/auth.js"></script>
+      <script>
+         // 이미 로그인되어 있으면 index.html로 리다이렉트
+         (async function () {
+            if (!window.supabase) {
+               await new Promise((r) => {
+                  const check = setInterval(() => {
+                     if (window.supabase) {
+                        clearInterval(check);
+                        r();
+                     }
+                  }, 50);
+               });
             }
             const supabaseJs = window.supabase;
-            const SUPABASE_URL = "https://aewnnwhiruatlkvtnwtb.supabase.co";
-            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFld25ud2hpcnVhdGxrdnRud3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4NjQ4MTgsImV4cCI6MjA3ODQ0MDgxOH0.LPnV7cdCMLqzy1B4hHM02Nv-LXSQyJla4V6x9iQaTIA";
+            const SUPABASE_URL = 'https://aewnnwhiruatlkvtnwtb.supabase.co';
+            const SUPABASE_ANON_KEY =
+               'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFld25ud2hpcnVhdGxrdnRud3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4NjQ4MTgsImV4cCI6MjA3ODQ0MDgxOH0.LPnV7cdCMLqzy1B4hHM02Nv-LXSQyJla4V6x9iQaTIA';
             const client = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            const { data: { session } } = await client.auth.getSession();
-            if(session) {
-              window.location.href = "index.html";
+            const {
+               data: { session },
+            } = await client.auth.getSession();
+            if (session) {
+               window.location.href = 'index.html';
             }
-        })();
-    </script>
-</body>
+         })();
+      </script>
+   </body>
 </html>
-
