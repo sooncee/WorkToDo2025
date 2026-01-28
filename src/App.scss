@@ -623,7 +623,7 @@ textarea {
 	display: flex;
 	align-items: center;
 	gap: 15px;
-	cursor: move;
+	cursor: grab !important;
 	user-select: none;
 	touch-action: none; // 모바일/터치 및 드래그 충돌 방지
 
@@ -631,13 +631,11 @@ textarea {
 		cursor: grabbing !important;
 	}
 
-	// framer-motion 드래그 중 스타일
-	&[style*='transform'] {
-		z-index: 1000 !important;
-		box-shadow: var(--shadow-xl) !important;
-		background: #fff !important;
-		opacity: 0.9;
-	}
+	// &.dragging {
+	// 	opacity: 0.4;
+	// 	border-style: dashed !important;
+	// 	background: rgba(255, 255, 255, 0.1) !important;
+	// }
 
 	&:hover {
 		transition: box-shadow 0.2s;

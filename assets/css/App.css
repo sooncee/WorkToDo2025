@@ -620,7 +620,7 @@ textarea {
   display: flex;
   align-items: center;
   gap: 15px;
-  cursor: move;
+  cursor: grab !important;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
@@ -628,12 +628,6 @@ textarea {
 }
 .todo-item:active {
   cursor: grabbing !important;
-}
-.todo-item[style*=transform] {
-  z-index: 1000 !important;
-  box-shadow: var(--shadow-xl) !important;
-  background: #fff !important;
-  opacity: 0.9;
 }
 .todo-item:hover {
   transition: box-shadow 0.2s;

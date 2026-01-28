@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useModalStore } from '../../store/modalStore';
+import { useDragStore } from '../../store/dragStore';
 
 const Calendar = ({ todos, updateTodo }) => {
 	const [view, setView] = useState('calendar'); // 'calendar' or 'list'
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const { openTaskModal } = useModalStore();
+	const { draggingTodoId, setDraggingTodoId } = useDragStore();
 
 	const year = currentDate.getFullYear();
 	const month = currentDate.getMonth();
@@ -12,19 +14,29 @@ const Calendar = ({ todos, updateTodo }) => {
 	const handlePrev = () => setCurrentDate(new Date(year, month - 1, 1));
 	const handleNext = () => setCurrentDate(new Date(year, month + 1, 1));
 
+	// YYYY-MM-DD 형식으로 변환 (DB 호환성 확보)
+	const formatDateKey = (y, m, d) => {
+		const mm = String(m).padStart(2, '0');
+		const dd = String(d).padStart(2, '0');
+		return `${y}-${mm}-${dd}`;
+	};
+
 	const onDrop = (e, dateKey) => {
 		e.preventDefault();
 		e.currentTarget.classList.remove('drag-over');
-		const todoId = e.dataTransfer.getData('todoId');
-		const todo = todos.find((t) => t.id.toString() === todoId);
+		const todoId = e.dataTransfer.getData('todoId') || draggingTodoId;
+		const todo = todos.find((t) => t.id.toString() === todoId?.toString());
 		if (todo) {
 			updateTodo({ ...todo, scheduledDate: dateKey });
 		}
+		setDraggingTodoId(null);
 	};
 
 	const onDragOver = (e) => {
 		e.preventDefault();
-		e.currentTarget.classList.add('drag-over');
+		if (!e.currentTarget.classList.contains('drag-over')) {
+			e.currentTarget.classList.add('drag-over');
+		}
 	};
 
 	const onDragLeave = (e) => {
@@ -42,7 +54,7 @@ const Calendar = ({ todos, updateTodo }) => {
 			cells.push(<div key={`empty-${i}`} className="calendar-day empty"></div>);
 		}
 		for (let d = 1; d <= lastDate; d++) {
-			const dateKey = `${year}-${month + 1}-${d}`;
+			const dateKey = formatDateKey(year, month + 1, d);
 			const dayTodos = scheduledTodos.filter((t) => t.scheduledDate === dateKey);
 			const isToday = new Date().toDateString() === new Date(year, month, d).toDateString();
 
@@ -64,8 +76,11 @@ const Calendar = ({ todos, updateTodo }) => {
 								style={{ backgroundColor: todo.color }}
 								draggable
 								onDragStart={(e) => {
+									setDraggingTodoId(todo.id);
 									e.dataTransfer.setData('todoId', todo.id.toString());
+									e.dataTransfer.effectAllowed = 'move';
 								}}
+								onDragEnd={() => setDraggingTodoId(null)}
 								onClick={() => openTaskModal(todo, (data) => updateTodo({ ...todo, ...data }))}
 							>
 								<span className="calendar-todo-title">{todo.title}</span>
@@ -97,7 +112,6 @@ const Calendar = ({ todos, updateTodo }) => {
 	};
 
 	const renderListView = () => {
-		// Group by date
 		const grouped = scheduledTodos.reduce((acc, t) => {
 			if (!acc[t.scheduledDate]) acc[t.scheduledDate] = [];
 			acc[t.scheduledDate].push(t);
@@ -136,8 +150,11 @@ const Calendar = ({ todos, updateTodo }) => {
 											style={{ borderLeftColor: todo.color }}
 											draggable
 											onDragStart={(e) => {
+												setDraggingTodoId(todo.id);
 												e.dataTransfer.setData('todoId', todo.id.toString());
+												e.dataTransfer.effectAllowed = 'move';
 											}}
+											onDragEnd={() => setDraggingTodoId(null)}
 											onClick={() => openTaskModal(todo, (data) => updateTodo({ ...todo, ...data }))}
 										>
 											<div className="list-todo-content">
