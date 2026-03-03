@@ -460,6 +460,7 @@ textarea {
 .tasks-layout {
 	display: flex;
 	gap: 16px;
+	max-width: 1300px;
 	.section {
 		position: sticky;
 		top: 0;
@@ -748,7 +749,7 @@ textarea {
 
 	border-radius: 20px;
 	border: 1px solid var(--glass-border);
-	padding: 12px;
+	// padding: 12px;
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
@@ -771,18 +772,28 @@ textarea {
 .day-number {
 	font-weight: 800;
 	font-size: 13px;
+	padding-top: 12px;
+	padding-left: 12px;
 }
 .calendar-todo {
 	cursor: grab;
 	&:active {
 		cursor: grabbing;
 	}
+	display: flex;
 	font-size: 11px;
 	font-weight: 600;
 	padding: 4px 10px;
+	padding-right: 0;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 	border: 1px solid rgba(255, 255, 255, 0.5);
+	&-title {
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+	}
 }
 
 .modal {
@@ -1310,6 +1321,13 @@ textarea {
 		flex-direction: column;
 		gap: 30px;
 	}
+	.tasks-layout {
+		flex-direction: column;
+	}
+	.calendar-day {
+		aspect-ratio: initial;
+		min-height: 62px;
+	}
 }
 
 @media (max-width: 768px) {
@@ -1320,15 +1338,16 @@ textarea {
 		bottom: 0;
 		top: auto;
 		padding: 0;
+		padding-inline: 16px;
 		border-top: 1px solid var(--glass-border);
 		border-right: 0;
 		backdrop-filter: blur(20px);
 	}
 	.sidebar-header {
-		display: none;
+		display: none !important;
 	}
 	.sidebar-menu {
-		flex-direction: row;
+		flex-direction: row !important;
 		justify-content: space-around;
 		align-items: center;
 		height: 100%;
@@ -1341,7 +1360,7 @@ textarea {
 		}
 	}
 	.sidebar-bottom {
-		display: none;
+		display: none !important;
 	}
 	.container {
 		margin-left: 0;

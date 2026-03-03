@@ -53,16 +53,6 @@ const Sidebar = () => {
 			),
 		},
 		{
-			id: 'workout',
-			label: 'Workout',
-			icon: (
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-					<path d="M18 8h-3V6c0-1.1-.9-2-2-2h-2c-1.1 0-2 .9-2 2v2H6c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2Z"></path>
-					<path d="M13 14h-2"></path>
-				</svg>
-			),
-		},
-		{
 			id: 'roadmap',
 			label: 'Roadmap',
 			icon: (

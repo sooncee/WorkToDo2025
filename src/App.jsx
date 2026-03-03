@@ -16,12 +16,6 @@ const Diet = () => (
 		<p>서비스 준비 중...</p>
 	</section>
 );
-const Workout = () => (
-	<section className="section">
-		<h1>운동 플래너</h1>
-		<p>서비스 준비 중...</p>
-	</section>
-);
 const Roadmap = () => (
 	<section className="section">
 		<h1>로드맵</h1>
@@ -51,8 +45,6 @@ function App() {
 				return <TasksSection />;
 			case 'diet':
 				return <Diet />;
-			case 'workout':
-				return <Workout />;
 			case 'roadmap':
 				return <Roadmap />;
 			default:

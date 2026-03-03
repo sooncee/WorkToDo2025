@@ -83,7 +83,7 @@ const Calendar = ({ todos, updateTodo }) => {
 								onDragEnd={() => setDraggingTodoId(null)}
 								onClick={() => openTaskModal(todo, (data) => updateTodo({ ...todo, ...data }))}
 							>
-								<span className="calendar-todo-title">{todo.title}</span>
+								<span className="calendar-todo-title ">{todo.title}</span>
 								<button
 									className="delete-btn"
 									onClick={(e) => {

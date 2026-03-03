@@ -17,7 +17,7 @@ const TodoList = ({ todos, addTodo, updateTodo, deleteTodo }) => {
 				const isInList = !t.scheduledDate;
 				return activeTab === 'active' ? !t.completed && isInList : t.completed && isInList;
 			})
-			.sort((a, b) => (a.order || 0) - (b.order || 0));
+			.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 	}, [todos, activeTab]);
 
 	// 원본 데이터가 변경되면 로컬 상태 동기화
@@ -30,7 +30,7 @@ const TodoList = ({ todos, addTodo, updateTodo, deleteTodo }) => {
 			if (todo) {
 				updateTodo({ ...todo, ...formData });
 			} else {
-				addTodo({ ...formData, completed: false, order: todos.length });
+				addTodo({ ...formData, completed: false });
 			}
 		});
 	};
@@ -43,35 +43,15 @@ const TodoList = ({ todos, addTodo, updateTodo, deleteTodo }) => {
 		e.currentTarget.classList.add('dragging');
 	};
 
-	// 리스트 내에서 이동 시 화면상에서 위치를 즉시 바꿔주는 핵심 로직
-	const onDragOverItem = (e, id) => {
+	// 드래그 중인 아이템 관리 (시각적 피드백 유지)
+	const onDragOverItem = (e) => {
 		e.preventDefault();
-		if (!draggingTodoId || draggingTodoId === id) return;
-
-		const draggingIdx = localItems.findIndex((i) => i.id === draggingTodoId);
-		const targetIdx = localItems.findIndex((i) => i.id === id);
-
-		if (draggingIdx !== -1 && targetIdx !== -1) {
-			const newItems = [...localItems];
-			const [removed] = newItems.splice(draggingIdx, 1);
-			newItems.splice(targetIdx, 0, removed);
-			setLocalItems(newItems); // 화면상에 즉시 반영
-		}
 	};
 
-	// 드래그가 끝났을 때 DB에 바뀐 순서 저장
+	// 드래그가 끝났을 때
 	const onDragEnd = (e) => {
 		e.currentTarget.classList.remove('dragging');
-
-		// 만약 draggingTodoId가 null이라면 (캘린더에 드롭되어 이미 처리됨), 순서 저장 로직을 건너뜁니다.
-		if (draggingTodoId) {
-			localItems.forEach((item, index) => {
-				if (item.order !== index) {
-					updateTodo({ ...item, order: index });
-				}
-			});
-			setDraggingTodoId(null);
-		}
+		setDraggingTodoId(null);
 	};
 
 	// 캘린더에서 넘어온 아이템 처리

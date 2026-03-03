@@ -327,8 +327,7 @@ textarea {
   bottom: 0;
   width: var(--sidebar-w-collapsed);
   background: var(--glass-bg-1);
-  -webkit-backdrop-filter: var(--glass-blur-1);
-          backdrop-filter: var(--glass-blur-1);
+  backdrop-filter: var(--glass-blur-1);
   border-right: 1px solid var(--glass-border);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -508,8 +507,7 @@ textarea {
 /* Sections Common */
 .section {
   background: var(--glass-bg-1);
-  -webkit-backdrop-filter: var(--glass-blur-1);
-          backdrop-filter: var(--glass-blur-1);
+  backdrop-filter: var(--glass-blur-1);
   border-radius: 40px;
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--glass-border);
@@ -543,8 +541,7 @@ textarea {
 
 .stat-card {
   background: var(--glass-bg-2);
-  -webkit-backdrop-filter: var(--glass-blur-2);
-          backdrop-filter: var(--glass-blur-2);
+  backdrop-filter: var(--glass-blur-2);
   border-radius: 28px;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--glass-border);
@@ -585,8 +582,7 @@ textarea {
 
 .dashboard-card {
   background: var(--glass-bg-2);
-  -webkit-backdrop-filter: var(--glass-blur-2);
-          backdrop-filter: var(--glass-blur-2);
+  backdrop-filter: var(--glass-blur-2);
   border-radius: 30px;
   border: 1px solid var(--glass-border);
   padding: 25px;
@@ -668,8 +664,7 @@ textarea {
 
 .todo-item {
   background: var(--glass-bg-2);
-  -webkit-backdrop-filter: var(--glass-blur-2);
-          backdrop-filter: var(--glass-blur-2);
+  backdrop-filter: var(--glass-blur-2);
   border-radius: 20px;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--glass-border);
@@ -794,8 +789,7 @@ textarea {
   min-height: 50px;
   aspect-ratio: 1/1;
   background: var(--glass-bg-2);
-  -webkit-backdrop-filter: var(--glass-blur-2);
-          backdrop-filter: var(--glass-blur-2);
+  backdrop-filter: var(--glass-blur-2);
   border-radius: 20px;
   border: 1px solid var(--glass-border);
   padding: 12px;
@@ -838,8 +832,7 @@ textarea {
   position: fixed;
   inset: 0;
   background: rgba(28, 43, 70, 0.4);
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   z-index: 2000;
   align-items: center;
   justify-content: center;
@@ -847,8 +840,7 @@ textarea {
 
 .modal-content {
   background: var(--glass-bg-3);
-  -webkit-backdrop-filter: var(--glass-blur-3);
-          backdrop-filter: var(--glass-blur-3);
+  backdrop-filter: var(--glass-blur-3);
   width: 95%;
   max-width: 500px;
   border-radius: 35px;
@@ -1031,12 +1023,6 @@ textarea {
 }
 
 /* Routine System Styles - Layout & Aesthetics Refined */
-.routine-section {
-  /* Tabs */
-  /* Today Checklist */
-  /* Side Tracker - Large Calendar Style */
-  /* Manage Settings */
-}
 .routine-section .routine-layout {
   display: grid;
   grid-template-columns: 400px 1fr;
@@ -1051,6 +1037,9 @@ textarea {
 .routine-section .routine-side-col {
   position: sticky;
   top: 0;
+}
+.routine-section {
+  /* Tabs */
 }
 .routine-section .routine-tabs {
   display: flex;
@@ -1074,6 +1063,9 @@ textarea {
   color: var(--text-emphasis);
   box-shadow: var(--shadow-sm);
   transform: translateY(-2px);
+}
+.routine-section {
+  /* Today Checklist */
 }
 .routine-section .routine-list-header {
   margin-bottom: 30px;
@@ -1115,8 +1107,7 @@ textarea {
 }
 .routine-section .routine-checklist .routine-check-item {
   background: var(--glass-bg-2);
-  -webkit-backdrop-filter: var(--glass-blur-2);
-          backdrop-filter: var(--glass-blur-2);
+  backdrop-filter: var(--glass-blur-2);
   padding: 24px;
   border-radius: 30px;
   border: 1px solid var(--glass-border);
@@ -1177,10 +1168,12 @@ textarea {
   color: var(--text-muted);
   line-height: 1.6;
 }
+.routine-section {
+  /* Side Tracker - Large Calendar Style */
+}
 .routine-section .tracker-card {
   background: var(--glass-bg-2);
-  -webkit-backdrop-filter: var(--glass-blur-2);
-          backdrop-filter: var(--glass-blur-2);
+  backdrop-filter: var(--glass-blur-2);
   padding: 40px;
   border-radius: 40px;
   border: 1px solid var(--glass-border);
@@ -1260,6 +1253,9 @@ textarea {
 .routine-section .routine-tab-content.active {
   display: block;
   animation: fadeIn 0.4s ease;
+}
+.routine-section {
+  /* Manage Settings */
 }
 .routine-section .manage-list {
   display: flex;
@@ -1358,8 +1354,7 @@ textarea {
     padding: 0;
     border-top: 1px solid var(--glass-border);
     border-right: 0;
-    -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
   }
   .sidebar-header {
     display: none;
