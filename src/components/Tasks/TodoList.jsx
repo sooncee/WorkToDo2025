@@ -131,7 +131,9 @@ const TodoList = ({ todos, addTodo, updateTodo, deleteTodo }) => {
 										className="delete-btn"
 										onClick={(e) => {
 											e.stopPropagation();
-											deleteTodo(todo.id);
+											if (window.confirm('이 할일을 삭제하시겠습니까?')) {
+												deleteTodo(todo.id);
+											}
 										}}
 									>
 										삭제
